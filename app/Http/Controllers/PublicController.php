@@ -11,7 +11,7 @@ class PublicController extends Controller
     {
 
         $products  =  DB::table("products")
-            ->inRandomOrder()
+            ->orderByDesc("id")
             ->paginate($paginate);
 
         return response()
