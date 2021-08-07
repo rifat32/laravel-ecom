@@ -11,8 +11,9 @@ class PublicController extends Controller
     {
 
         $products  =  DB::table("products")
-            ->orderByDesc("id")
+            ->inRandomOrder()
             ->paginate($paginate);
+
         return response()
             ->json([
                 "products" => $products
