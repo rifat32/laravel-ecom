@@ -29,6 +29,7 @@ Route::post('/login', [AuthController::class, "login"]);
 Route::post('/register', [AuthController::class, "register"]);
 // products
 Route::get('/products/{paginate}', [PublicController::class, "getProducts"]);
+Route::get('/products/single/{slug}', [PublicController::class, "getProductBySlug"]);
 Route::get('/products/category/{category}/{paginate}', [PublicController::class, "getProductsByCategory"]);
 Route::get('/products/search/{key}/{paginate}', [PublicController::class, "getProductsBySearch"]);
 

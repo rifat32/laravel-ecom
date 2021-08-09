@@ -45,6 +45,16 @@ class PublicController extends Controller
                 "products" => $products
             ], 200);
     }
+    public function getProductBySlug($slug)
+    {
+        $product  =  DB::table("products")
+            ->where(['slug' => $slug])
+            ->get();
+        return response()
+            ->json([
+                "products" => $product
+            ], 200);
+    }
 
     public function getCategories()
     {
