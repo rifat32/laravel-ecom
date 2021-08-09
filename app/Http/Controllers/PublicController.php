@@ -35,9 +35,9 @@ class PublicController extends Controller
     }
     public function getProductsBySearch($key, $paginate)
     {
-
+        $key = strtolower($key);
         $products  =  DB::table("products")
-            ->where('name', 'like', '%' . $key . '%')
+            ->where('slug', 'like', '%' . $key . '%')
             ->orderByDesc("id")
             ->paginate($paginate);
         return response()
