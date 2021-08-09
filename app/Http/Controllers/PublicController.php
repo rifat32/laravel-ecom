@@ -49,10 +49,10 @@ class PublicController extends Controller
     {
         $product  =  DB::table("products")
             ->where(['slug' => $slug])
-            ->get();
+            ->first();
         return response()
             ->json([
-                "products" => $product
+                "product" => $product
             ], 200);
     }
 
