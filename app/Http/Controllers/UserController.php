@@ -56,6 +56,33 @@ class UserController extends Controller
             ], 201);
         }
     }
+    public function updateCarts(Request $request, $id)
+    {
+        $user = $request->user();
+        $incrementDecrement = $request->incrementDecrement;
+
+        $cartQuery = DB::table('carts')
+            ->where([
+                'id' => $id,
+                "user_id" => $user->id
+            ]);
+        $cart = $cartQuery->first();
+
+        if ($incrementDecrement == "increment") {
+            $cartQuery->update([
+                "quantity" => $cart->quantity + 1
+            ]);
+        } else {
+            if ($cart->quantity > 1) {
+                $cartQuery->update([
+                    "quantity" => $cart->quantity + -1
+                ]);
+            }
+        }
+        return response()->json([
+            "message" => "cart updated successfully"
+        ], 201);
+    }
     public function deleteSingleCart(Request $request, $id)
     {
         $user = $request->user();

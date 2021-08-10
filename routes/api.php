@@ -43,6 +43,7 @@ Route::middleware(['auth:api'])->prefix("/user")->group(function () {
     // carts
     Route::get('/carts', [UserController::class, "getCarts"]);
     Route::post('/carts', [UserController::class, "createCarts"]);
+    Route::put('/carts/{id}', [UserController::class, "updateCarts"]);
     Route::delete('/carts/{id}', [UserController::class, "deleteSingleCart"]);
     Route::delete('/carts', [UserController::class, "deleteAllCarts"]);
     // orders
