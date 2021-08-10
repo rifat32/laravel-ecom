@@ -15,18 +15,18 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|confirmed|string|min:6',
-        ]);
-        if ($validator->fails()) {
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users',
+        //     'password' => 'required|confirmed|string|min:6',
+        // ]);
+        // if ($validator->fails()) {
 
-            return response(['errors' => $validator->errors()->all()], 422);
-        }
-        $request['password'] = Hash::make($request['password']);
-        $request['remember_token'] = Str::random(10);
-        User::create($request->toArray());
+        //     return response(['errors' => $validator->errors()->all()], 422);
+        // }
+        // $request['password'] = Hash::make($request['password']);
+        // $request['remember_token'] = Str::random(10);
+        // User::create($request->toArray());
         $loginData = $request->validate([
             'email' => 'email|required',
             'password' => 'required'
