@@ -26,10 +26,18 @@ class AuthController extends Controller
         }
         $request['password'] = Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
-        $user =   User::create($request->toArray());
+        User::create($request->toArray());
+        if (!auth()->attempt($validator)) {
+            return response(['message' => 'Invalid Credentials'], 422);
+        }
 
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        $role = auth()->user()->role;
+        $roleArr = explode(" ", $role);
 
-        return response(["ok" => true, "message" => "You have successfully registered", "user" => $user, "token" =>  $request['remember_token']], 200);
+        auth()->user()->role = $roleArr;
+
+        return response(["ok" => true, "message" => "You have successfully registered", "user" => auth()->user(), "token" =>  $accessToken], 200);
     }
     public function login(Request $request)
     {
