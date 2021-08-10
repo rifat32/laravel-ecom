@@ -27,11 +27,10 @@ class AuthController extends Controller
         $request['password'] = Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
         User::create($request->toArray());
-        $loginData = [
-            'email' => $request['email'],
-            'password' => $request['password']
-
-        ];
+        $loginData = $request->validate([
+            'email' => 'email|required',
+            'password' => 'required'
+        ]);
         if (!auth()->attempt($loginData)) {
             return response(['message' => 'Invalid Credentials'], 422);
         }
