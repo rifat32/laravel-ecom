@@ -15,33 +15,21 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:users',
-        //     'password' => 'required|confirmed|string|min:6',
-        // ]);
-        // if ($validator->fails()) {
-
-        //     return response(['errors' => $validator->errors()->all()], 422);
-        // }
-        // $request['password'] = Hash::make($request['password']);
-        // $request['remember_token'] = Str::random(10);
-        // User::create($request->toArray());
-        $loginData = $request->validate([
-            'email' => 'email|required',
-            'password' => 'required'
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|confirmed|string|min:6',
         ]);
-        if (!auth()->attempt($loginData)) {
-            return response(['message' => 'Invalid Credentials'], 422);
+        if ($validator->fails()) {
+
+            return response(['errors' => $validator->errors()->all()], 422);
         }
+        $request['password'] = Hash::make($request['password']);
+        $request['remember_token'] = Str::random(10);
+        $user =  User::create($request->toArray());
+        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
 
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
-        $role = auth()->user()->role;
-        $roleArr = explode(" ", $role);
-
-        auth()->user()->role = $roleArr;
-
-        return response(["ok" => true, "message" => "You have successfully registered", "user" => auth()->user(), "token" =>  $accessToken], 200);
+        return response(["ok" => true, "message" => "You have successfully registered", "user" => $user, "token" => $token], 200);
     }
     public function login(Request $request)
     {
