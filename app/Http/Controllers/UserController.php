@@ -75,7 +75,7 @@ class UserController extends Controller
         } else {
             if ($cart->quantity > 1) {
                 $cartQuery->update([
-                    "quantity" => $cart->quantity + -1
+                    "quantity" => $cart->quantity  - 1
                 ]);
             }
         }
