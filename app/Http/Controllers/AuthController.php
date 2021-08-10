@@ -28,10 +28,9 @@ class AuthController extends Controller
         $request['remember_token'] = Str::random(10);
         User::create($request->toArray());
         $loginData = [
-            [
-                'email' => $request['email'],
-                'password' => $request['password']
-            ]
+            'email' => $request['email'],
+            'password' => $request['password']
+
         ];
         if (!auth()->attempt($loginData)) {
             return response(['message' => 'Invalid Credentials'], 422);
